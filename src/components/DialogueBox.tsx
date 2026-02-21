@@ -183,7 +183,7 @@ export default function DialogueBox() {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            placeholder="Talk to the NPC..."
+            placeholder="Ask me anything..."
             disabled={isTyping}
             className="flex-1 bg-transparent border-b-2 border-rpg-gold/20
                        text-rpg-emerald font-pixel text-[8px] md:text-[10px] py-1.5
