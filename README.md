@@ -1,6 +1,6 @@
 # Tigris Umbra AI
 
-An RPG-style AI chatbot frontend built with Next.js 14, Tailwind CSS, and Framer Motion.
+An RPG-style AI chatbot frontend built with Next.js 16, Tailwind CSS, and Framer Motion.
 
 ## Current Status
 
@@ -9,6 +9,7 @@ An RPG-style AI chatbot frontend built with Next.js 14, Tailwind CSS, and Framer
 - Animated tiger avatar (Tigris Umbra)
 - Typewriter text animation for AI responses
 - Pixel forest background GIF
+- Question logging to `questions.txt`
 
 **No chat features yet** — All AI responses currently return a placeholder message. The RAG (Retrieval-Augmented Generation) backend integration is planned for a future update.
 
@@ -19,7 +20,16 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the site.
+Open [http://localhost:3000](http://localhost:3000) to view the site in development.
+
+## Production Deployment
+
+```bash
+npm run build
+npm start
+```
+
+**Note:** Production runs on port **3002** (configured in `package.json`). This port was chosen because ports 3000 and 3001 are already in use by other services on the server.
 
 ## Tech Stack
 

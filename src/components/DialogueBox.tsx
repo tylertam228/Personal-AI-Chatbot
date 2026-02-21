@@ -57,15 +57,37 @@ export default function DialogueBox() {
     }
   }, [messages]);
 
+  // ── Log question to server ───────────────────────────────────────
+  // This function sends the user's question to our API endpoint,
+  // which appends it to a questions.txt file on the server.
+  // We use `fetch` with POST method and JSON body.
+  // The function is async but we don't await it in handleSend —
+  // we "fire and forget" so the UI stays responsive.
+  const logQuestion = (question: string) => {
+    fetch("/api/log-question", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question }),
+    }).catch((err) => {
+      // Silently ignore errors — logging shouldn't break the chat
+      console.error("Failed to log question:", err);
+    });
+  };
+
   // ── Event Handler ─────────────────────────────────────────────
   const handleSend = () => {
     if (!inputValue.trim() || isTyping) return;
 
+    const question = inputValue.trim();
+
     const userMsg: Message = {
       id: Date.now(),
       role: "user",
-      text: inputValue.trim(),
+      text: question,
     };
+
+    // Log the question to the server (fire and forget)
+    logQuestion(question);
 
     // Functional updater: `prev` is the *previous* state array.
     // We spread it and append the new message, producing a new array
