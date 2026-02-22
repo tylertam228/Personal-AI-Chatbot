@@ -1,0 +1,11 @@
+# Python >= 3.10 required (server runs 3.10.12)
+fastapi
+uvicorn
+langchain
+langchain-google-genai
+langchain-chroma
+langchain-text-splitters
+langchain-community
+chromadb
+python-dotenv
+pypdf

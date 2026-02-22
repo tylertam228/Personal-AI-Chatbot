@@ -1,110 +1,68 @@
 "use client";
-// ↑ "use client" tells Next.js this component runs in the BROWSER.
-//   Any component using React hooks (useState, useEffect) or browser
-//   APIs must be a Client Component.
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 
-// ── TypeScript Interface ───────────────────────────────────────
-// `interface` defines the shape of a data object.
-// Every Message MUST have these 3 properties with these exact types.
-// `role: "user" | "ai"` is a *union type* — it can ONLY be one of
-// those two literal strings; anything else triggers a compile error.
 interface Message {
   id: number;
   role: "user" | "ai";
   text: string;
 }
 
-// The avatar image path — update this if you swap the character GIF.
 const AVATAR_SRC = "/Tiger_Animation_AI.gif";
-
-const AI_RESPONSE = "Sorry, this feature is still developing.";
 
 const WELCOME_TEXT =
   "Greetings, traveler! It seems you wish to know more about my human. Feel free to ask — I shall answer to the best of my ability.";
 
 export default function DialogueBox() {
-  // ── useState with Generics ────────────────────────────────────
-  // useState<Message[]>([...]) tells TypeScript that `messages` is
-  // always an *array of Message objects*.  If you accidentally push
-  // a plain string into the array, TypeScript catches it at compile time.
   const [messages, setMessages] = useState<Message[]>([
     { id: 0, role: "ai", text: WELCOME_TEXT },
   ]);
-
-  // useState<string>("") — simpler generic: state is always a string.
   const [inputValue, setInputValue] = useState<string>("");
-
-  // Tracks whether the typewriter animation is still playing.
   const [isTyping, setIsTyping] = useState<boolean>(true);
-
-  // The `id` of the AI message currently being animated.
   const [typingId, setTypingId] = useState<number>(0);
-
-  // ── useRef ────────────────────────────────────────────────────
-  // useRef<HTMLDivElement>(null) creates a *ref* — a mutable container
-  // that persists across re-renders.  The generic <HTMLDivElement>
-  // tells TypeScript what DOM element type the ref will point to.
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll to bottom whenever messages change.
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // ── Log question to server ───────────────────────────────────────
-  // This function sends the user's question to our API endpoint,
-  // which appends it to a questions.txt file on the server.
-  // We use `fetch` with POST method and JSON body.
-  // The function is async but we don't await it in handleSend —
-  // we "fire and forget" so the UI stays responsive.
-  const logQuestion = (question: string) => {
-    fetch("/api/log-question", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ question }),
-    }).catch((err) => {
-      // Silently ignore errors — logging shouldn't break the chat
-      console.error("Failed to log question:", err);
-    });
+  const askQuestion = async (question: string): Promise<string> => {
+    try {
+      const res = await fetch("/api/log-question", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+      const data = await res.json();
+      return data.answer || "Sorry, I couldn't get a response right now.";
+    } catch (err) {
+      console.error("Failed to get AI response:", err);
+      return "Sorry, I'm having trouble connecting right now. Please try again later.";
+    }
   };
 
-  // ── Event Handler ─────────────────────────────────────────────
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!inputValue.trim() || isTyping) return;
 
     const question = inputValue.trim();
-
     const userMsg: Message = {
       id: Date.now(),
       role: "user",
       text: question,
     };
 
-    // Log the question to the server (fire and forget)
-    logQuestion(question);
-
-    // Functional updater: `prev` is the *previous* state array.
-    // We spread it and append the new message, producing a new array
-    // (React requires immutable state updates).
     setMessages((prev) => [...prev, userMsg]);
     setInputValue("");
     setIsTyping(true);
 
-    // Simulate a short "thinking" delay before AI responds.
-    setTimeout(() => {
-      const aiId = Date.now() + 1;
-      setMessages((prev) => [
-        ...prev,
-        { id: aiId, role: "ai", text: AI_RESPONSE },
-      ]);
-      setTypingId(aiId);
-    }, 500);
+    const answer = await askQuestion(question);
+    const aiId = Date.now() + 1;
+    setMessages((prev) => [...prev, { id: aiId, role: "ai", text: answer }]);
+    setTypingId(aiId);
   };
 
   return (
@@ -119,7 +77,6 @@ export default function DialogueBox() {
 
         {/* ── Main Dialogue Area ─────────────────────────────── */}
         <div className="flex items-start gap-3 md:gap-4 p-3 md:p-4 pt-5 md:pt-6">
-          {/* Animated avatar GIF — uses a plain <img> so the GIF stays animated */}
           <div className="shrink-0 w-16 h-16 md:w-20 md:h-20 border-2 border-rpg-gold overflow-hidden float-animation bg-rpg-panel">
             <img
               src={AVATAR_SRC}
@@ -149,13 +106,6 @@ export default function DialogueBox() {
                     {msg.text}
                   </>
                 ) : msg.id === typingId ? (
-                  // ── TypeAnimation (react-type-animation) ──────
-                  // `sequence` is an array that alternates between
-                  //  strings (text to type) and callbacks / delays.
-                  // `key` forces React to *unmount and remount* the
-                  //  component whenever the id changes, restarting
-                  //  the animation from scratch.
-                  // `speed` ranges 1-99; higher = faster.
                   <TypeAnimation
                     key={msg.id}
                     sequence={[msg.text, () => setIsTyping(false)]}
@@ -176,8 +126,6 @@ export default function DialogueBox() {
             &gt;
           </span>
 
-          {/* React.KeyboardEvent<HTMLInputElement> tells TS this event
-              comes from an <input>.  We can safely read e.key, etc. */}
           <input
             type="text"
             value={inputValue}
@@ -192,8 +140,6 @@ export default function DialogueBox() {
                        disabled:opacity-40 transition-colors"
           />
 
-          {/* motion.button from Framer Motion — wraps a regular <button>
-              and adds physics-based hover / tap animations. */}
           <motion.button
             onClick={handleSend}
             disabled={isTyping || !inputValue.trim()}

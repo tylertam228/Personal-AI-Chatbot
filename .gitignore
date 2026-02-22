@@ -45,3 +45,12 @@ next-env.d.ts
 
 # log files
 questions.txt
+
+# AI backend — personal knowledge base (contains private info)
+src/ai_backend/docs/
+
+# AI backend — env, vector database & Python artifacts
+src/ai_backend/.env
+src/ai_backend/chroma_db/
+src/ai_backend/venv/
+src/ai_backend/__pycache__/
