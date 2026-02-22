@@ -31,7 +31,7 @@ Users can ask questions through the dialogue box, and the AI responds based on t
 - Python 3.10+ (server runs 3.10.12)
 - FastAPI + uvicorn
 - LangChain
-- Google Gemini API (text-embedding-004 + gemini-2.0-flash)
+- Google Gemini API (gemini-embedding-001 + gemini-2.0-flash)
 - ChromaDB (local vector database)
 
 ## Architecture
@@ -43,7 +43,7 @@ User types question → DialogueBox.tsx
         ↓
 FastAPI /chat (port 8000)
         ↓
-text-embedding-004 embeds query → ChromaDB searches Top 3 chunks
+gemini-embedding-001 embeds query → ChromaDB searches Top 3 chunks
         ↓
 Found relevant docs  → gemini-2.0-flash generates answer
 No relevant docs     → "My human didn't told me that..."

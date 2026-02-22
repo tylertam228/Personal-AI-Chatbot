@@ -39,7 +39,7 @@ _PROMPT = PromptTemplate.from_template(
 
 
 def _get_vectorstore() -> Chroma:
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-exp-03-07")
+    embeddings = GoogleGenerativeAIEmbeddings(model="gemini-embedding-001")
     return Chroma(
         persist_directory=CHROMA_DIR,
         embedding_function=embeddings,
