@@ -18,7 +18,7 @@ const pressStart2P = Press_Start_2P({
 // `icons.icon` overrides the default favicon.ico with our custom PNG.
 export const metadata: Metadata = {
   title: "Tigris Umbra AI",
-  description: "RPG-style AI Portfolio by TYHStudio",
+  description: "AI Chatbot by Tiger228",
   icons: {
     icon: "/favicon.png",
   },
