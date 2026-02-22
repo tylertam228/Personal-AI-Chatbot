@@ -66,7 +66,7 @@ def ingest():
     chunks = text_splitter.split_documents(documents)
     print(f"Total: {len(documents)} document(s), split into {len(chunks)} chunk(s).")
 
-    embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
+    embeddings = GoogleGenerativeAIEmbeddings(model="models/gemini-embedding-exp-03-07")
 
     if os.path.isdir(CHROMA_DIR):
         shutil.rmtree(CHROMA_DIR)
