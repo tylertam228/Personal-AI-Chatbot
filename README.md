@@ -31,7 +31,7 @@ Users can ask questions through the dialogue box, and the AI responds based on t
 - Python 3.10+ (server runs 3.10.12)
 - FastAPI + uvicorn
 - LangChain
-- Google Gemini API (gemini-embedding-001 + gemini-2.0-flash)
+- Google Gemini API (gemini-embedding-001 + gemini-2.5-flash)
 - ChromaDB (local vector database)
 
 ## Architecture
@@ -45,7 +45,7 @@ FastAPI /chat (port 8000)
         ↓
 gemini-embedding-001 embeds query → ChromaDB searches Top 3 chunks
         ↓
-Found relevant docs  → gemini-2.0-flash generates answer
+Found relevant docs  → gemini-2.5-flash generates answer
 No relevant docs     → "My human didn't told me that..."
 429 rate limit       → "Sorry, my human is poor..."
         ↓

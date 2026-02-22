@@ -73,12 +73,9 @@ def ask(question: str) -> str:
 
         context = "\n\n".join(doc.page_content for doc, _ in relevant_docs)
 
-        llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
+        llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
         """
-        You can also use other models in free tier like:
-        gemini-2.0-flash-lite
-        gemini-1.5-flash
-        They all 1500/day usage limit.
+        You can also use other models
         """
         chain = _PROMPT | llm
         result = chain.invoke({"context": context, "question": question})
@@ -90,6 +87,7 @@ def ask(question: str) -> str:
         return answer
 
     except Exception as exc:
+        print(f"[DEBUG ERROR] type={type(exc).__name__}, msg={str(exc)}")
         if _is_rate_limited(exc):
             return RATE_LIMIT_MSG
         raise
