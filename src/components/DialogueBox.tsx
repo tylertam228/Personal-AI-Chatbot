@@ -70,7 +70,7 @@ export default function DialogueBox() {
       <div className="pixel-border bg-rpg-dark/95 backdrop-blur-sm mx-auto max-w-4xl relative">
         {/* ── Character Name Tag ─────────────────────────────── */}
         <div className="absolute -top-4 left-4 md:left-6 px-3 py-1 bg-rpg-dark border-2 border-rpg-gold z-10">
-          <span className="font-pixel text-rpg-gold text-[8px] md:text-[10px] tracking-wide">
+          <span className="font-pixel text-rpg-gold text-[16px] md:text-[18px] tracking-wide">
             ✦ Tigris Umbra
           </span>
         </div>
@@ -89,12 +89,12 @@ export default function DialogueBox() {
           {/* Messages container */}
           <div
             ref={scrollRef}
-            className="flex-1 min-h-[60px] md:min-h-[80px] max-h-28 md:max-h-32 overflow-y-auto dialogue-scroll"
+            className="flex-1 min-h-[100px] md:min-h-[120px] max-h-44 md:max-h-52 overflow-y-auto dialogue-scroll"
           >
             {messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`mb-1.5 font-pixel text-[8px] md:text-[10px] leading-[1.8] ${
+                className={`mb-1.5 font-pixel text-[16px] md:text-[18px] leading-[1.8] ${
                   msg.role === "user"
                     ? "text-rpg-emerald"
                     : "text-rpg-gold/90"
@@ -122,7 +122,7 @@ export default function DialogueBox() {
 
         {/* ── Input Bar ──────────────────────────────────────── */}
         <div className="flex items-center gap-2 px-3 md:px-4 pb-3 md:pb-4">
-          <span className="text-rpg-emerald font-pixel text-[10px] md:text-xs select-none">
+          <span className="text-rpg-emerald font-pixel text-[16px] md:text-[18px] select-none">
             &gt;
           </span>
 
@@ -134,7 +134,7 @@ export default function DialogueBox() {
             placeholder="Ask me anything..."
             disabled={isTyping}
             className="flex-1 bg-transparent border-b-2 border-rpg-gold/20
-                       text-rpg-emerald font-pixel text-[8px] md:text-[10px] py-1.5
+                       text-rpg-emerald font-pixel text-[16px] md:text-[18px] py-1.5
                        placeholder:text-rpg-gold/15
                        focus:outline-none focus:border-rpg-gold/50
                        disabled:opacity-40 transition-colors"
@@ -149,7 +149,7 @@ export default function DialogueBox() {
             }}
             whileTap={{ scale: 0.95 }}
             className="border-2 border-rpg-gold bg-rpg-panel text-rpg-gold
-                       font-pixel text-[8px] md:text-[10px] px-3 md:px-4 py-1.5 md:py-2
+                       font-pixel text-[16px] md:text-[18px] px-3 md:px-4 py-1.5 md:py-2
                        hover:bg-rpg-gold/10 disabled:opacity-25 transition-colors"
           >
             SEND

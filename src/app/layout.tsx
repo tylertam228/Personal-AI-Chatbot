@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import { Press_Start_2P } from "next/font/google";
 import "./globals.css";
 
-// ── Google Font Setup ──────────────────────────────────────────
-// Press_Start_2P is a pixel-art font that gives the classic JRPG feel.
-// `variable` injects a CSS custom property (--font-press-start) onto <body>,
-// which our Tailwind @theme then picks up via --font-pixel.
-const pressStart2P = Press_Start_2P({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-press-start",
-});
+// ── Font ────────────────────────────────────────────────────────
+// Ark Pixel (方舟像素字體) by TakWolf — OFL-licensed.
+// A pixel art font with multi-language support (Latin, 繁中, 簡中, 日, 韓).
+// All subsets share the same em-square metrics, so every language renders
+// at a consistent visual size.
+// All subsets are loaded via @font-face + unicode-range in globals.css;
+// the browser only downloads what the page actually needs.
 
 // ── Page Metadata ──────────────────────────────────────────────
 // `Metadata` is a TypeScript type exported by Next.js.
@@ -35,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${pressStart2P.variable} antialiased`}>
+      <body className="antialiased">
         {children}
       </body>
     </html>

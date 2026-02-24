@@ -25,6 +25,7 @@ Users can ask questions through the dialogue box, and the AI responds based on t
 - Tailwind CSS v4
 - Framer Motion
 - react-type-animation
+- [Ark Pixel Font (方舟像素字體)](https://github.com/TakWolf/ark-pixel-font) — 10px proportional, OFL-licensed pixel font with unified metrics across Latin, 繁中, 简中, 日本語, 한국어
 
 ### AI Backend
 
@@ -280,4 +281,8 @@ pm2 logs nextjs-ai
 | ---- | -------------------- |
 | 3002 | Next.js (frontend)   |
 | 8000 | FastAPI (AI backend) |
+
+# Common Error
+
+You may not be able to run it because the Gemini API is unavailable in some regions. Please use a VPN when local test.
 

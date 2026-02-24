@@ -54,3 +54,5 @@ src/ai_backend/.env
 src/ai_backend/chroma_db/
 src/ai_backend/venv/
 src/ai_backend/__pycache__/
+
+.vscode/
